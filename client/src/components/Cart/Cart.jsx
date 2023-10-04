@@ -1,50 +1,67 @@
 import React from "react";
 import "./Cart.scss";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import { useDispatch, useSelector } from "react-redux";
+import { removeItem, resetCart } from "../../redux/cartReducer";
+import { loadStripe } from "@stripe/stripe-js";
+import { makeRequest } from "../../makeRequests";
 
 const Cart = () => {
-  const data = [
-    {
-      id: 1,
-      img: "https://images.pexels.com/photos/1972115/pexels-photo-1972115.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/1163194/pexels-photo-1163194.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "Long Sleeve Graphic T-Shirt",
-      desc: "Long Sleeve Graphic T-Shirt",
-      isNew: true,
-      oldPrice: 19,
-      price: 12,
-    },
-    {
-      id: 2,
-      img: "https://images.pexels.com/photos/1759622/pexels-photo-1759622.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "Coat",
-      desc: "Coat",
-      isNew: true,
-      oldPrice: 19,
-      price: 12,
-    },
-  ];
+  const products = useSelector((state) => state.cart.products);
+  const dispatch = useDispatch();
+
+  const totalPrice = () => {
+    let total = 0;
+    products.forEach((item) => (total += item.quantity * item.price));
+    return total.toFixed(2);
+  };
+
+  const stripePromise = loadStripe(
+    "pk_test_51Nx5swSDxUaCvsaiTM3xNC1xym7nJomLrSLDOJNf10t87TOwgWmZ6YbzuQAMnZ4UkuOv1GMANnIvy5NqV0NkH7Vs009EPJNX6G"
+  );
+
+  const handlePayment = async () => {
+    try {
+      const stripe = await stripePromise;
+      const res = await makeRequest.post("/orders", {
+        products,
+      });
+      await stripe.redirectToCheckout({
+        sessionId: res.data.stripeSession.id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="cart">
       <h1>Products in your Cart</h1>
-      {data?.map((item) => (
+      {products?.map((item) => (
         <div className="item" key={item.id}>
-          <img src={item.img} alt="" />
+          <img src={import.meta.env.VITE_UPLOAD_URL + item.img} alt="" />
           <div className="details">
             <h1>{item.title}</h1>
             <p>{item.desc?.substring(0, 100)}</p>
-            <div className="price">1 x ${item.price}</div>
+            <div className="price">
+              {item.quantity} x &#8377;{item.price}
+            </div>
           </div>
-          <DeleteOutlinedIcon className="delete" />
+          <DeleteOutlinedIcon
+            className="delete"
+            onClick={() => dispatch(removeItem(item.id))}
+          />
         </div>
       ))}
       <div className="total">
         <span>SUBTOTAL</span>
-        <span>$1223</span>
+        <span>&#8377;{totalPrice()}</span>
       </div>
 
-      <button>PROCEED TO CHECKOUT</button>
-      <span className="reset">Reset Cart</span>
+      <button onClick={handlePayment}>PROCEED TO CHECKOUT</button>
+      <span className="reset" onClick={() => dispatch(resetCart())}>
+        Reset Cart
+      </span>
     </div>
   );
 };
