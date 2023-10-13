@@ -2,6 +2,7 @@ import React from "react";
 import "./FeaturedProducts.scss";
 import Card from "../Card/Card";
 import useFetch from "../../hooks/useFetch";
+import { BeatLoader } from "react-spinners";
 
 const FeaturedProducts = ({ type }) => {
   const { data, loading, error } = useFetch(
@@ -19,11 +20,13 @@ const FeaturedProducts = ({ type }) => {
         </p>
       </div>
       <div className="bottom">
-        {error
-          ? "Something went wrong!"
-          : loading
-          ? "loading"
-          : data?.map((item) => <Card item={item} key={item.id} />)}
+        {error ? (
+          <BeatLoader color="#2879fe"/>
+        ) : loading ? (
+          <BeatLoader color="#2879fe"/>
+        ) : (
+          data?.map((item) => <Card item={item} key={item.id} />)
+        )}
       </div>
     </div>
   );

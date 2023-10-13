@@ -682,7 +682,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   info: {
     singularName: 'category';
     pluralName: 'categories';
-    displayName: 'Category';
+    displayName: 'category';
   };
   options: {
     draftAndPublish: true;
@@ -725,12 +725,12 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     singularName: 'order';
     pluralName: 'orders';
     displayName: 'order';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    email: Attribute.Email;
     stripeId: Attribute.Text;
     products: Attribute.JSON;
     createdAt: Attribute.DateTime;
@@ -779,8 +779,8 @@ export interface ApiProductProduct extends Schema.CollectionType {
       'manyToMany',
       'api::sub-category.sub-category'
     >;
-    type: Attribute.Enumeration<['normal', 'featured', 'trending']>;
     oldPrice: Attribute.Decimal;
+    type: Attribute.Enumeration<['normal', 'featured', 'trending']>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

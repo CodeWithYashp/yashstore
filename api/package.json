@@ -10,25 +10,21 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-i18n": "4.14.0",
-    "@strapi/plugin-users-permissions": "4.14.0",
-    "@strapi/strapi": "^4.14.0",
+    "@strapi/plugin-i18n": "4.14.4",
+    "@strapi/plugin-users-permissions": "4.14.4",
+    "@strapi/strapi": "4.14.4",
     "mysql": "2.18.1",
-    "strapi": "^3.6.11",
-    "stripe": "^13.8.0"
+    "stripe": "^13.10.0"
   },
   "author": {
     "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "7f69862e-0747-4a30-815d-af0587f8a2fd"
+    "uuid": "8cde4f6c-d10e-41d5-afd8-bbd35c659135"
   },
   "engines": {
     "node": ">=16.0.0 <=20.x.x",
     "npm": ">=6.0.0"
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/stripe": "^8.0.417"
-  }
+  "license": "MIT"
 }

@@ -2,6 +2,7 @@ import React from "react";
 import "./List.scss";
 import Card from "../Card/Card";
 import useFetch from "../../hooks/useFetch";
+import { BeatLoader } from "react-spinners";
 
 const List = ({ subCats, maxPrice, sort, catId }) => {
   const { data, loading, error } = useFetch(
@@ -12,9 +13,13 @@ const List = ({ subCats, maxPrice, sort, catId }) => {
 
   return (
     <div className="list">
-      {loading
-        ? "Loading..."
-        : data?.map((item) => <Card item={item} key={item.id} />)}
+      {error ? (
+        <BeatLoader color="#2879fe"/>
+      ) : loading ? (
+        <BeatLoader color="#2879fe"/>
+      ) : (
+        data?.map((item) => <Card item={item} key={item.id} />)
+      )}
     </div>
   );
 };

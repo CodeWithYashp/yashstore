@@ -16,9 +16,7 @@ const Cart = () => {
     return total.toFixed(2);
   };
 
-  const stripePromise = loadStripe(
-    "pk_test_51Nx5swSDxUaCvsaiTM3xNC1xym7nJomLrSLDOJNf10t87TOwgWmZ6YbzuQAMnZ4UkuOv1GMANnIvy5NqV0NkH7Vs009EPJNX6G"
-  );
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
   const handlePayment = async () => {
     try {

@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
+import { BeatLoader } from "react-spinners";
 
 const Product = () => {
   const id = useParams().id;
@@ -19,7 +20,7 @@ const Product = () => {
   return (
     <div className="product">
       {loading ? (
-        "Loading..."
+        <BeatLoader color="#2879fe"/>
       ) : (
         <>
           <div className="left">
